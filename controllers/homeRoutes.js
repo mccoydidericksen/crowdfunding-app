@@ -15,26 +15,25 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/profile', async (req, res) => {
-  console.log(req.session.user_id)
   try {
     const dbUserData = await User.findByPk(req.session.user_id, {
       include: [
         {
           model: Project,
-          attributes: ['name', 'description'],
+          attributes: ['name', 'description', 'needed_funding', 'date_created'],
         },
       ],
     });
-    console.log(dbUserData);
-    const users = dbUserData.map((project) =>
+    const projects = dbUserData.dataValues.projects.map((project) =>
       project.get({ plain: true })
     );
-    // console.log(req.session);
-    console.log(users);
-    // console.log("req.sessionID", req.sessionID)
-    // res.render('homepage', {
-    //   projects,
-    // });
+    const user = dbUserData.dataValues;
+    console.log(projects);
+    console.log(user);
+    res.render('profile', {
+      user,
+      projects
+    });
   } catch (err) {
     res.status(500).json(err);
   }
