@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Project } = require('../models/index');
+const { Project, User } = require('../models/index');
 
 router.get('/', async (req, res) => {
   try {
@@ -12,6 +12,32 @@ router.get('/', async (req, res) => {
     res.status(500).json(err);
   }
 
+});
+
+router.get('/profile', async (req, res) => {
+  console.log(req.session.user_id)
+  try {
+    const dbUserData = await User.findByPk(req.session.user_id, {
+      include: [
+        {
+          model: Project,
+          attributes: ['name', 'description'],
+        },
+      ],
+    });
+    console.log(dbUserData);
+    const users = dbUserData.map((project) =>
+      project.get({ plain: true })
+    );
+    // console.log(req.session);
+    console.log(users);
+    // console.log("req.sessionID", req.sessionID)
+    // res.render('homepage', {
+    //   projects,
+    // });
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 router.get('/project/:id', async (req, res) => {
