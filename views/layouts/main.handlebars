@@ -13,6 +13,14 @@
     <h1>
       Projects
     </h1>
+    <nav>
+    <a href="/">Home</a>
+    {{#if loggedIn}}
+    <button id="logout" class="btn-no-style">Logout</button>
+    {{else}}
+    <a href="/login">Login</a>
+    {{/if}}
+  </nav>
   </header>
   <main class="container container-fluid mt-5">
     {{{ body }}}
