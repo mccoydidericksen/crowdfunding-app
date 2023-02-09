@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { Project, User } = require('../models/index');
+const withAuth = require('../utils/auth');
 
 router.get('/', async (req, res) => {
   try {
@@ -7,6 +8,7 @@ router.get('/', async (req, res) => {
     const projects = dbProjectsData.map((project) => project.get({plain: true}))
     res.render('homepage', {
       projects,
+      logged_in: req.session.logged_in
     });
   } catch (err) {
     res.status(500).json(err);
@@ -14,7 +16,8 @@ router.get('/', async (req, res) => {
 
 });
 
-router.get('/profile', async (req, res) => {
+router.get('/profile', withAuth, async (req, res) => {
+  console.log(req.session.logged_in);
   try {
     const dbUserData = await User.findByPk(req.session.user_id, {
       include: [
@@ -28,11 +31,10 @@ router.get('/profile', async (req, res) => {
       project.get({ plain: true })
     );
     const user = dbUserData.dataValues;
-    console.log(projects);
-    console.log(user);
     res.render('profile', {
       user,
-      projects
+      projects,
+      logged_in: req.session.logged_in
     });
   } catch (err) {
     res.status(500).json(err);
@@ -53,8 +55,8 @@ router.get('/project/:id', async (req, res) => {
 });
 
 router.get('/login', (req, res) => {
-  if (req.session.loggedIn) {
-    res.redirect('/');
+  if (req.session.logged_in) {
+    res.redirect('/profile');
     return;
   }
   res.render('login');

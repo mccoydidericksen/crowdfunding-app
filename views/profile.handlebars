@@ -1,19 +1,24 @@
-<div class="row align-center mb-5">
+<div class="row align-center mb-5" id="projects">
   <div class="col-md-6">
     <h2> {{user.name}}</h2>
   </div>
  {{#each projects}}
-  <div class="col-md-6">
-    <h2> {{name}}</h2>
-  </div>
-  <div class="col-md-6">
-    <h3>{{description}}</h3>
-  </div>
-  <div class="col-md-6">
-    <h3>{{needed_funding}}</h3>
-  </div>
-  <div class="col-md-6">
-    <h3>{{format_date date_created}}</h3>
+  <div>
+    <div class="col-md-6">
+      <h2> {{name}}</h2>
+    </div>
+    <div class="col-md-6">
+      <h3>{{description}}</h3>
+    </div>
+    <div class="col-md-6">
+      <h3>{{needed_funding}}</h3>
+    </div>
+    <div class="col-md-6">
+      <h3>{{format_date date_created}}</h3>
+    </div>
+    <div>
+        <button id="{{id}}" class="btn btn-primary delete-btn" type="submit">Delete Project</button>
+    </div>
   </div>
 </div>
 {{/each}}
@@ -35,3 +40,5 @@
       </div>
     </form>
 </div>
+<script src="./js/project.js"></script>
+<script src="./js/delete.js"></script>

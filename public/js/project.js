@@ -3,12 +3,12 @@ const projectHandler = async (event) => {
   
     const name = document.querySelector('#name').value.trim();
     const description = document.querySelector('#description').value.trim();
-    const funding = document.querySelector('#needed_funding').value.trim();
+    const needed_funding = document.querySelector('#needed_funding').value.trim();
   
-    if (name && description && funding) {
+    if (name && description && needed_funding) {
       const response = await fetch('/api/projects', {
         method: 'POST',
-        body: JSON.stringify({ name, description, funding }),
+        body: JSON.stringify({ name, description, needed_funding }),
         headers: { 'Content-Type': 'application/json' },
       });
   
