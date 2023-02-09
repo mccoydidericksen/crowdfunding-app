@@ -23,7 +23,7 @@ router.get('/profile', withAuth, async (req, res) => {
       include: [
         {
           model: Project,
-          attributes: ['name', 'description', 'needed_funding', 'date_created'],
+          attributes: ['id', 'name', 'description', 'needed_funding', 'date_created'],
         },
       ],
     });
